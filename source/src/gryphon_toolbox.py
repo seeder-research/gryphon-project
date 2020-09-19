@@ -471,7 +471,7 @@ class gryphon_toolbox(object):
     def solve(self):
         if self.parameters["output"]["statistics"] or self.parameters["output"]["plot"]:
             self.verifyOutputPath()
-        self.cpustart = time.clock()
+        self.cpustart = time.perf_counter()
         self.wallclockstart = time.time()
 
         # Used when estimating program run time
@@ -481,7 +481,7 @@ class gryphon_toolbox(object):
             self.currentStepsizeSelector = self.stepsizeselector[self.parameters['timestepping']['stepsizeselector']]
 
     def terminateTimeLoop(self, terminateReason):
-        self.cputime = time.clock() - self.cpustart
+        self.cputime = time.perf_counter() - self.cpustart
         self.walltime = time.time() - self.wallclockstart
         self.generateOutput(terminateReason)
 
