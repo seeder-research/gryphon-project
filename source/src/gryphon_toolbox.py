@@ -413,11 +413,11 @@ class gryphon_toolbox(object):
         accepted. Otherwise it returns False.
         """
         if self.parameters['timestepping']['convergence_criterion'] == "relative":
-            if le <= max(self.parameters['timestepping']['relative_tolerance'] * norm(u.vector(), 'l2'),
+            if le <= max(self.parameters['timestepping']['relative_tolerance'] * u.vector().norm("l2"),
                          self.parameters['timestepping']['absolute_tolerance']):
 
                 # Update tolerance which to select the new stepsize from
-                self.tol = max(self.parameters['timestepping']['relative_tolerance'] * norm(u.vector(), 'l2'),
+                self.tol = max(self.parameters['timestepping']['relative_tolerance'] * u.vector().norm("l2"),
                                self.parameters['timestepping']['absolute_tolerance'])
                 return True
             else:
