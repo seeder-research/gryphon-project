@@ -267,3 +267,9 @@ class ESDIRK(gryphon_toolbox):
         else:
             steps = (self.tend - self.t) / self.dt
         return str(timedelta(seconds=round(self.timestepTimer * steps)))
+    
+    def getState(self):
+        return self.u
+
+    def getTime(self):
+        return self.t
