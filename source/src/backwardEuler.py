@@ -26,14 +26,14 @@ from .gryphon_toolbox import gryphon_toolbox, linearStage, nonlinearStage
 
 
 class backwardEuler(gryphon_toolbox):
-    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default"):
+    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default", krylov=False):
         # The current backward Euler implementation does not provide
         # an estimate for the local error and does thus not support
         # adaptive step size selection.
         self.supportsAdaptivity = False
 
         # Call toolbox constructor
-        gryphon_toolbox.__init__(self, T, u, f, bcs, tdf, tdfBC, method, preconditioner)
+        gryphon_toolbox.__init__(self, T, u, f, bcs, tdf, tdfBC, method, preconditioner, krylov)
 
         self.parameters.add("method", "Backward Euler")
         self.parameters.set_range("method", {"Backward Euler"})
