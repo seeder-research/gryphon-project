@@ -33,7 +33,7 @@ class gryphon_toolbox(object):
     #
     # -----------------------------------------------------------------
 
-    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default"):
+    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default", krylov=False):
         self.u = u  # Initial condition
         self.bcs = bcs  # Boundary conditions
         self.f = f  # Right hand side
@@ -58,6 +58,7 @@ class gryphon_toolbox(object):
         self.Jeval = 0  # Number of Jacobian assemblies
         self.method = method  # Linear solver method
         self.preconditioner = preconditioner  # Preconditioner for linear solver method
+        self.krylov = krylov  # Selection of krylov or lu solver for linear problems
 
         # Variables for storing previously accepted / rejected time steps
         # with corresponding estimated local error. This is used in the 
@@ -141,7 +142,10 @@ class gryphon_toolbox(object):
         if self.rank == 2:
             d.info("Using LU-solver to solve linear systems.")
             self.linear = True
-            self.solver = d.LUSolver()
+            if self.krylov:
+                self.solver = d.KrylovSolver()
+            else
+                self.solver = d.LUSolver()
         else:
             d.info("Using Newton-solver to solve nonlinear systems.")
             self.linear = False
