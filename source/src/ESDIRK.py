@@ -27,13 +27,13 @@ from ufl import form, replace
 
 
 class ESDIRK(gryphon_toolbox):
-    def __init__(self, T, u, f, g=[], bcs=[], tdf=[], tdfBC=[]):
+    def __init__(self, T, u, f, g=[], bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default"):
         # The ESDIRK methods provides an estimate for the local error
         # and thus supports adaptive step size selection.
         self.supportsAdaptivity = True
 
         # Call toolbox constructor
-        gryphon_toolbox.__init__(self, T, u, f, bcs, tdf, tdfBC)
+        gryphon_toolbox.__init__(self, T, u, f, bcs, tdf, tdfBC, method, preconditioner)
 
         self.parameters.add("method", "ESDIRK43a")
         self.parameters.set_range("method", {"ESDIRK43a", "ESDIRK43b", "ESDIRK32a", "ESDIRK32b"})
