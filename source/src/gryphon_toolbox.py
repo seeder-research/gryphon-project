@@ -33,7 +33,7 @@ class gryphon_toolbox(object):
     #
     # -----------------------------------------------------------------
 
-    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[]):
+    def __init__(self, T, u, f, bcs=[], tdf=[], tdfBC=[], method="default", preconditioner="default"):
         self.u = u  # Initial condition
         self.bcs = bcs  # Boundary conditions
         self.f = f  # Right hand side
@@ -56,6 +56,8 @@ class gryphon_toolbox(object):
         self.rejected_steps = [[], []]  # Rejected steps
         self.Feval = 0  # Number of function assemblies
         self.Jeval = 0  # Number of Jacobian assemblies
+        self.method = method  # Linear solver method
+        self.preconditioner = preconditioner  # Preconditioner for linear solver method
 
         # Variables for storing previously accepted / rejected time steps
         # with corresponding estimated local error. This is used in the 
@@ -640,4 +642,4 @@ class linearStage:
         for i in self.bcs:
             i.apply(A)
             i.apply(b)
-        self.solver.solve(A, X, b)
+        self.solver.solve(A, X, b, method=self.method, preconditioner=self.preconditioner)
