@@ -58,7 +58,7 @@ class gryphon_toolbox(object):
         self.Jeval = 0  # Number of Jacobian assemblies
         self.method = method  # Linear solver method
         self.preconditioner = preconditioner  # Preconditioner for linear solver method
-        self.krylov = krylov  # Selection of krylov or lu solver for linear problems
+        self.krylov = krylov  # Selection of krylov solver for linear problems (lu solver is default)
 
         # Variables for storing previously accepted / rejected time steps
         # with corresponding estimated local error. This is used in the 
@@ -143,9 +143,9 @@ class gryphon_toolbox(object):
             d.info("Using LU-solver to solve linear systems.")
             self.linear = True
             if self.krylov:
-                self.solver = d.KrylovSolver()
-            else
-                self.solver = d.LUSolver()
+                self.solver = d.KrylovSolver(method=self.method, preconditioner=self.preconditioner)
+            else:
+                self.solver = d.LUSolver(self.method)
         else:
             d.info("Using Newton-solver to solve nonlinear systems.")
             self.linear = False
@@ -646,4 +646,4 @@ class linearStage:
         for i in self.bcs:
             i.apply(A)
             i.apply(b)
-        self.solver.solve(A, X, b, method=self.method, preconditioner=self.preconditioner)
+        self.solver.solve(A, X, b)
