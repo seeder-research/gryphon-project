@@ -140,11 +140,12 @@ class gryphon_toolbox(object):
 
         # Set appropriate solver
         if self.rank == 2:
-            d.info("Using LU-solver to solve linear systems.")
             self.linear = True
             if self.krylov:
+                d.info("Using Krylov-solver to solve linear systems.")
                 self.solver = d.KrylovSolver(method=self.method, preconditioner=self.preconditioner)
             else:
+                d.info("Using LU-solver to solve linear systems.")
                 self.solver = d.LUSolver(self.method)
         else:
             d.info("Using Newton-solver to solve nonlinear systems.")
